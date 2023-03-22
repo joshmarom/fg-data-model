@@ -1,5 +1,4 @@
-# Mantine + Vite template
-
+# Data Model Dashboard
 Official [Mantine](https://mantine.dev/) + [Vite](https://vitejs.dev/) template.
 
 Links:
