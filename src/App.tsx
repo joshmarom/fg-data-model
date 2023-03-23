@@ -5,10 +5,11 @@ import { ThemeProvider } from './ThemeProvider';
 import { LoginButton } from './LoginButton';
 // import { useGoogleSheets } from './API/googleSheetsAPI';
 
+console.log(import.meta.env.VITE_CLIENT_ID);
 const App = () => (
   //const { sheets, selectedSheet, sheetData, error, updateSheetData, setSelectedSheet } = useGoogleSheets();
   <ThemeProvider>
-    <GoogleOAuthProvider clientId={import.meta.env.VITE_CLIENT_ID}>
+    <GoogleOAuthProvider clientId={import.meta.env.VITE_CLIENT_ID} onScriptLoadError={console.log}>
       <Container ta="center" mt="xl">
         <LoginButton />
       </Container>
