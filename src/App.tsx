@@ -1,17 +1,12 @@
 import React from 'react';
-import { useGoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
-import { Button, Container } from '@mantine/core';
+import { GoogleOAuthProvider } from '@react-oauth/google';
+import { Container } from '@mantine/core';
 import { ThemeProvider } from './ThemeProvider';
-import { Welcome } from './Welcome/Welcome';
 import { LoginButton } from './LoginButton';
 // import { useGoogleSheets } from './API/googleSheetsAPI';
 
 const App = () => (
   //const { sheets, selectedSheet, sheetData, error, updateSheetData, setSelectedSheet } = useGoogleSheets();
-  /*
-
-*/
-
   <ThemeProvider>
     <GoogleOAuthProvider clientId={import.meta.env.VITE_CLIENT_ID}>
       <Container ta="center" mt="xl">
