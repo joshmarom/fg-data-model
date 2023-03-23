@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 const googleSheets = google.sheets('v4');
 const spreadsheetId = import.meta.env.VITE_SPREADSHEET_ID;
 
-const getGoogleAuth = async () => {
+export const getGoogleAuth = async () => {
   const auth = new google.auth.OAuth2(
     import.meta.env.VITE_CLIENT_ID,
     import.meta.env.VITE_CLIENT_SECRET,
