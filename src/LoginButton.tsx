@@ -1,10 +1,16 @@
 import { useGoogleLogin } from '@react-oauth/google';
 import { Button } from '@mantine/core';
 
-export const LoginButton = () => {
+export const LoginButton = ({
+  handleSuccess,
+  handleError,
+}: {
+  handleSuccess: (accessToken: string) => void;
+  handleError: (error: string) => void;
+}) => {
   const login = useGoogleLogin({
-    onSuccess: (tokenResponse) => console.log(tokenResponse),
-    onError: ({ error_description }) => console.log(error_description),
+    onSuccess: ({ access_token }) => handleSuccess(access_token),
+    onError: ({ error_description }) => error_description && handleError(error_description),
   });
 
   return <Button onClick={() => login()}>Sign in with Google 🚀 </Button>;

@@ -4023,6 +4023,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"google-sheets-mapper@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "google-sheets-mapper@npm:2.0.0"
+  checksum: 666b14a3d6f8cdca337257adc7ae88726d0a3d140f8f5b13f8a662d288a57a2ee65292a94de79f2b44fc66daab1b6e430d3c35d34cac03531ca6ae2df72d686f
+  languageName: node
+  linkType: hard
+
 "googleapis-common@npm:^6.0.0":
   version: 6.0.4
   resolution: "googleapis-common@npm:6.0.4"
@@ -5511,6 +5518,7 @@ __metadata:
     react-router-dom: "npm:^6.9.0"
     ts-jest: "npm:^29.0.5"
     typescript: "npm:^4.9.5"
+    use-google-sheets: "npm:^2.0.0"
     vite: "npm:^4.1.1"
   languageName: unknown
   linkType: soft
@@ -7278,6 +7286,17 @@ __metadata:
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
   checksum: fa16d45f2693bd93491c792b504e4494a5aeb901fb4d6cf198d370e1396b90aa10bc2535355f27b00f43b7ca6930d6914f701ab2c72e85a3641d1fdccd7f9f17
+  languageName: node
+  linkType: hard
+
+"use-google-sheets@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "use-google-sheets@npm:2.0.0"
+  dependencies:
+    google-sheets-mapper: "npm:^2.0.0"
+  peerDependencies:
+    react: ">=17.0"
+  checksum: ea8a9a608c1cae04e1cccdcd80b652704cae654a1ed2d1e440682db7527e9678f945bd61458d14e50236dce42282b3c183f96e72d64a8da4821db0ef1e2706c5
   languageName: node
   linkType: hard
 
