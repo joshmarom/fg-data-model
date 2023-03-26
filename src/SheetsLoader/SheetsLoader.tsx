@@ -36,65 +36,53 @@ export const SheetsLoader = ({ accessToken }: { accessToken: string }) => {
     useSheetData(accessToken);
   const location = useLocation();
 
-  const handleSheetClick = (sheetName: string) => {
-    setActiveSheet(sheetName);
-  };
-
   React.useEffect(() => {
     const sheetName = location.pathname.split('/').pop();
-    if (sheetName) {
-      setActiveSheet(decodeURIComponent(sheetName));
-    }
+    if (sheetName) setActiveSheet(decodeURIComponent(sheetName));
   }, [location, setActiveSheet]);
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <>Error: {error}</>;
-  if (!isValidResponse(data)) return <div>Could not load data</div>;
+  if (!isValidResponse(data) || !data.sheets.length) return <div>Could not load data</div>;
 
-  const { sheets } = data;
-
-  if (sheets.length) {
-    return (
-      <Flex h="100vh" w="100%">
-        <ScrollArea w="300px">
-          {sheets.map(({ properties: props }) => {
-            if (!props || !props.title) return null;
-            const { title } = props;
-            return (
-              <Link
-                key={props.sheetId}
-                to={`/sheet/${title}`}
-                onClick={() => handleSheetClick(title)}
-                style={{ textDecoration: 'none' }}
-              >
-                <NavLink label={title} active={title === activeSheet} />
-              </Link>
-            );
-          })}
-        </ScrollArea>
-        {isSheetData(sheetData) && (
-          <Stack w="100%" p="xl">
-            <Group spacing="md" align="baseline">
-              <ActionIcon color="green" size="xl" radius="xl">
-                <FileSpreadsheet size="24" strokeWidth={1} />
-              </ActionIcon>
-              <Title>{activeSheet}</Title>
-              {sheetData.values?.length && <Text>{sheetData.values.length - 1} fields</Text>}
-            </Group>
-            <ScrollArea
-              w="100%"
-              sx={(theme) => ({
-                borderTop: '1px solid',
-                borderColor: borderColor(theme),
-              })}
+  return (
+    <Flex h="100vh" w="100%">
+      <ScrollArea w="300px">
+        {data.sheets.map(({ properties: props }) => {
+          if (!props || !props.title) return null;
+          const { title } = props;
+          return (
+            <Link
+              key={props.sheetId}
+              to={`/sheet/${title}`}
+              onClick={() => setActiveSheet(title)}
+              style={{ textDecoration: 'none' }}
             >
-              <Rows sheetData={sheetData} />
-            </ScrollArea>
-          </Stack>
-        )}
-      </Flex>
-    );
-  }
-
-  return <div>Something went wrong</div>;
+              <NavLink label={title} active={title === activeSheet} />
+            </Link>
+          );
+        })}
+      </ScrollArea>
+      {isSheetData(sheetData) && (
+        <Stack w="100%" p="xl">
+          <Group spacing="md" align="baseline">
+            <ActionIcon color="green" size="xl" radius="xl">
+              <FileSpreadsheet size="24" strokeWidth={1} />
+            </ActionIcon>
+            <Title>{activeSheet}</Title>
+            {sheetData.values?.length && <Text>{sheetData.values.length - 1} fields</Text>}
+          </Group>
+          <ScrollArea
+            w="100%"
+            sx={(theme) => ({
+              borderTop: '1px solid',
+              borderColor: borderColor(theme),
+            })}
+          >
+            <Rows sheetData={sheetData} />
+          </ScrollArea>
+        </Stack>
+      )}
+    </Flex>
+  );
 };
