@@ -5553,6 +5553,7 @@ __metadata:
     react: "npm:^18.2.0"
     react-dom: "npm:^18.2.0"
     react-router-dom: "npm:^6.9.0"
+    tabler-icons-react: "npm:^1.56.0"
     ts-jest: "npm:^29.0.5"
     typescript: "npm:^4.9.5"
     use-google-sheets: "npm:^2.0.0"
@@ -6999,6 +7000,15 @@ __metadata:
   version: 6.0.1
   resolution: "tabbable@npm:6.0.1"
   checksum: 449b28fd2456c530ac6a2741fdf7d9c9a045b0f783a099335333a855247442066ab8af5de4425b91fe97791976704983cef63b460790762a974ddc811b104867
+  languageName: node
+  linkType: hard
+
+"tabler-icons-react@npm:^1.56.0":
+  version: 1.56.0
+  resolution: "tabler-icons-react@npm:1.56.0"
+  peerDependencies:
+    react: ">= 16.8.0"
+  checksum: fa3a51233abc47f9314d3eefd7c28498b01ee315a4ff87eccaa1e295c51aab346b86df320f671cac6c1a05a847de1f737c6860070c5216d67533c419f7dc5074
   languageName: node
   linkType: hard
 

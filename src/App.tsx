@@ -1,7 +1,7 @@
 import React from 'react';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { Container, Title } from '@mantine/core';
+import { Center } from '@mantine/core';
 import { ThemeProvider } from './ThemeProvider';
 import { LoginButton } from './LoginButton';
 import { SheetsLoader } from './SheetsLoader';
@@ -9,7 +9,7 @@ import { SheetsLoader } from './SheetsLoader';
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      cacheTime: 1000 * 60 * 60, // 1 hour
+      cacheTime: 1000 * 60 * 60 * 2, // 2 hours
     },
   },
 });
@@ -45,10 +45,9 @@ const App = () => {
           {accessToken ? (
             <SheetsLoader accessToken={accessToken} />
           ) : (
-            <Container ta="center" mt="xl">
-              <Title>Sign in with Google to view your data</Title>
+            <Center h="100vh">
               <LoginButton handleError={console.log} handleSuccess={handleSuccess} />
-            </Container>
+            </Center>
           )}
         </QueryClientProvider>
       </GoogleOAuthProvider>

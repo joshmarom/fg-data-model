@@ -1,5 +1,6 @@
 import { useGoogleLogin } from '@react-oauth/google';
 import { Button } from '@mantine/core';
+import { BrandGoogle } from 'tabler-icons-react';
 
 export const LoginButton = ({
   handleSuccess,
@@ -15,5 +16,9 @@ export const LoginButton = ({
     hosted_domain: 'fundguard.com',
   });
 
-  return <Button onClick={() => login()}>Sign in with Google 🚀 </Button>;
+  return (
+    <Button onClick={() => login()} leftIcon={<BrandGoogle />}>
+      Sign in
+    </Button>
+  );
 };
