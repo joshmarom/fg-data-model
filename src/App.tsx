@@ -1,7 +1,7 @@
 import React from 'react';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { Container } from '@mantine/core';
+import { Container, Title } from '@mantine/core';
 import { ThemeProvider } from './ThemeProvider';
 import { LoginButton } from './LoginButton';
 import { SheetsLoader } from './SheetsLoader';
@@ -46,7 +46,7 @@ const App = () => {
             <SheetsLoader accessToken={accessToken} />
           ) : (
             <Container ta="center" mt="xl">
-              <h1>Sign in with Google to view your data</h1>
+              <Title>Sign in with Google to view your data</Title>
               <LoginButton handleError={console.log} handleSuccess={handleSuccess} />
             </Container>
           )}
