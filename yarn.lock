@@ -912,6 +912,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@googleapis/sheets@npm:^4.0.2":
+  version: 4.0.2
+  resolution: "@googleapis/sheets@npm:4.0.2"
+  dependencies:
+    googleapis-common: "npm:^6.0.3"
+  checksum: 002ada6de99505d8796499061d61fc15e9125dbbc27cd37e872635350d0ccb264a4ec7bece39490627bc1caf59aeb159c02480827b212ec88f69c6da079d03eb
+  languageName: node
+  linkType: hard
+
 "@humanwhocodes/config-array@npm:^0.11.8":
   version: 0.11.8
   resolution: "@humanwhocodes/config-array@npm:0.11.8"
@@ -1539,6 +1548,32 @@ __metadata:
   dependencies:
     "@sinonjs/commons": "npm:^2.0.0"
   checksum: 71871b869836da889454e4aeceecc996d608e13accb0dd33d3234cd33a5394d72ed0334669df523df97a482d6b2a7119a5d853908812190ee718bdbc903198be
+  languageName: node
+  linkType: hard
+
+"@tanstack/query-core@npm:4.27.0":
+  version: 4.27.0
+  resolution: "@tanstack/query-core@npm:4.27.0"
+  checksum: 8b2bf33bbc8a4451bc66d259cf8184bafc5a1fe0d5b93bbb14dfe50a76f8e3dffad2e772bc672d9fd5b27450204596df0cfbf78342d89f07d043ecb6686798e2
+  languageName: node
+  linkType: hard
+
+"@tanstack/react-query@npm:^4.28.0":
+  version: 4.28.0
+  resolution: "@tanstack/react-query@npm:4.28.0"
+  dependencies:
+    "@tanstack/query-core": "npm:4.27.0"
+    use-sync-external-store: "npm:^1.2.0"
+  peerDependencies:
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+    react-native: "*"
+  peerDependenciesMeta:
+    react-dom:
+      optional: true
+    react-native:
+      optional: true
+  checksum: 912f0105278e6e929b6370800eada3f4b90f2658c765beba52c8161e445fb9069d4719c84d765289dafb1fae7ba45ddd066a777e9cb06adcbc674bedbffd2fda
   languageName: node
   linkType: hard
 
@@ -4030,7 +4065,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"googleapis-common@npm:^6.0.0":
+"googleapis-common@npm:^6.0.0, googleapis-common@npm:^6.0.3":
   version: 6.0.4
   resolution: "googleapis-common@npm:6.0.4"
   dependencies:
@@ -5488,9 +5523,11 @@ __metadata:
   resolution: "mantine-vite-template@workspace:."
   dependencies:
     "@emotion/react": "npm:^11.10.5"
+    "@googleapis/sheets": "npm:^4.0.2"
     "@mantine/core": "npm:6.0.0"
     "@mantine/hooks": "npm:6.0.0"
     "@react-oauth/google": "npm:^0.9.0"
+    "@tanstack/react-query": "npm:^4.28.0"
     "@testing-library/dom": "npm:^8.20.0"
     "@testing-library/jest-dom": "npm:^5.16.5"
     "@testing-library/react": "npm:^13.4.0"
@@ -7339,6 +7376,15 @@ __metadata:
     "@types/react":
       optional: true
   checksum: a1990ab1207b2bd98fd35386b8a4ee58081f77c297226ef1e2d5f3cd42dea2234245730e5f7125a62665bdd7c30926df3682adfd935f0f6fc2c2a4c2ddb41a4d
+  languageName: node
+  linkType: hard
+
+"use-sync-external-store@npm:^1.2.0":
+  version: 1.2.0
+  resolution: "use-sync-external-store@npm:1.2.0"
+  peerDependencies:
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+  checksum: bed3d1f68ca3dd33647035dbeb9d3a5ece12fced0245cb0fa831426192e52e4948b0fc6e9187d9d4dce9f58269af605f8feeeda100d2928f8b865f9cd9cc4a4a
   languageName: node
   linkType: hard
 
