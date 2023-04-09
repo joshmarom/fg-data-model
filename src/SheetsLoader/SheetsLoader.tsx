@@ -1,88 +1,135 @@
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import type { sheets_v4 } from 'googleapis';
-import {
-  ActionIcon,
-  Flex,
-  Group,
-  MantineTheme,
-  NavLink,
-  ScrollArea,
-  Stack,
-  Text,
-  Title,
-} from '@mantine/core';
-import { FileSpreadsheet } from 'tabler-icons-react';
-import { useSheetData } from './useSheetData';
+import { Search } from 'tabler-icons-react';
+import { Panel, PanelGroup, PanelResizeHandle } from 'react-resizable-panels';
+import { Box, Flex, ScrollArea, Stack, Text, TextInput, Title } from '@mantine/core';
+import { borderColor, isSheetData, isValidResponse, Sheet } from './helpers';
+import { useDebouncedSearch, useRouteItemActivator, useSearchSheets, useSheetData } from './hooks';
 import { Rows } from './Rows';
+import { CategoriesAccordion } from './CategoriesAccordion';
+import { invalidSheets } from './invalidSheets';
+import { SheetList } from './SheetList';
+import { DarkModeSwitch } from '../components/DarkModeSwitch';
+import { Logo } from '../components/Logo';
+import { parseSheetData } from './sheetParser';
+import { useRowsJsonUrl } from './hooks/useRowsJson';
+import { useStyles } from './SheetLoaderStyle';
+import { SheetViewHeader } from './SheetViewHeader';
 
-type Sheet = sheets_v4.Schema$Sheet;
-type Sheets = Sheet[];
-type Response = sheets_v4.Schema$Spreadsheet;
-type ResponseWithSheets = Response & { sheets: Sheets };
-
-const isSheets = (value: any): value is Sheets =>
-  Array.isArray(value) && value.every((item) => typeof item === 'object');
-const isValidResponse = (value: any): value is ResponseWithSheets =>
-  typeof value === 'object' && isSheets(value.sheets);
-const isSheetData = (value: any): value is sheets_v4.Schema$ValueRange =>
-  typeof value === 'object' && Array.isArray(value.values);
-
-const borderColor = ({ colors, colorScheme }: MantineTheme) =>
-  colorScheme === 'dark' ? colors.dark[5] : colors.gray[3];
+const onlyValidSheets = (sheets: Sheet[]): Sheet[] =>
+  sheets.filter(
+    (s, i) => i > 7 && !!s.properties.title && !invalidSheets.includes(s.properties.title)
+  );
 
 export const SheetsLoader = ({ accessToken }: { accessToken: string }) => {
   const { activeSheet, data, isLoading, error, setActiveSheet, sheetData } =
     useSheetData(accessToken);
-  const location = useLocation();
+  const sheetDataIsValid = React.useMemo(() => isSheetData(sheetData), [sheetData]);
+  const sheets = React.useMemo(() => (data?.sheets ? onlyValidSheets(data.sheets) : []), [data]);
+  const sheet = React.useMemo(
+    () => sheets.find((s: Sheet) => s.properties.title === activeSheet),
+    [sheets, activeSheet]
+  );
+  const rows = React.useMemo(
+    () => (sheetDataIsValid ? parseSheetData(sheetData) : []),
+    [sheetDataIsValid, sheetData]
+  );
+  const { setSheetSearchText, filteredSheets } = useSearchSheets(sheets);
+  const { debouncedSearchText, onInputChange } = useDebouncedSearch();
+  const [iframeMode, setIframeMode] = React.useState(false);
+  const iframeUrl = React.useMemo(
+    () =>
+      !sheetDataIsValid || !sheet
+        ? undefined
+        : `https://docs.google.com/spreadsheets/d/${data.spreadsheetId}/edit#gid=${sheet.properties.sheetId}`,
+    [sheetDataIsValid, sheet, data]
+  );
+  const rowsJsonUrl = useRowsJsonUrl(rows);
+  const { classes } = useStyles();
+  const [openRow, setOpenRow] = React.useState<string | undefined>();
+  const [openCat, setOpenCat] = React.useState<string | undefined>();
 
-  React.useEffect(() => {
-    const sheetName = location.pathname.split('/').pop();
-    if (sheetName) setActiveSheet(decodeURIComponent(sheetName));
-  }, [location, setActiveSheet]);
+  useRouteItemActivator(setActiveSheet);
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <>Error: {error}</>;
-  if (!isValidResponse(data) || !data.sheets.length) return <div>Could not load data</div>;
+  if (!isValidResponse(data)) return <div>Could not load data</div>;
 
   return (
-    <Flex h="100vh" w="100%">
-      <ScrollArea w="300px">
-        {data.sheets.map(({ properties: props }) => {
-          if (!props || !props.title) return null;
-          const { title } = props;
-          return (
-            <Link
-              key={props.sheetId}
-              to={`/sheet/${title}`}
-              onClick={() => setActiveSheet(title)}
-              style={{ textDecoration: 'none' }}
-            >
-              <NavLink label={title} active={title === activeSheet} />
-            </Link>
-          );
-        })}
-      </ScrollArea>
-      {isSheetData(sheetData) && (
-        <Stack w="100%" p="xl">
-          <Group spacing="md" align="baseline">
-            <ActionIcon color="green" size="xl" radius="xl">
-              <FileSpreadsheet size="24" strokeWidth={1} />
-            </ActionIcon>
-            <Title>{activeSheet}</Title>
-            {sheetData.values?.length && <Text>{sheetData.values.length - 1} fields</Text>}
-          </Group>
-          <ScrollArea
-            w="100%"
-            sx={(theme) => ({
-              borderTop: '1px solid',
-              borderColor: borderColor(theme),
-            })}
-          >
-            <Rows sheetData={sheetData} />
-          </ScrollArea>
+    <Flex h="100vh" w="100%" className={classes.canvas}>
+      <Flex direction="column" className={classes.sidebar}>
+        <Stack p="lg" spacing="xl">
+          <Logo className={classes.logo} />
+          <TextInput
+            placeholder="Search Sheet"
+            variant="filled"
+            type="search"
+            onInput={({ currentTarget: { value } }) => setSheetSearchText(value)}
+            rightSection={<Search size="16" strokeWidth={1} />}
+          />
         </Stack>
-      )}
+        <ScrollArea h="100%" px="lg">
+          <SheetList activeSheet={activeSheet} sheets={filteredSheets} />
+        </ScrollArea>
+        <Box p="xl" sx={(t) => ({ borderTop: `1px solid ${borderColor(t)}` })}>
+          <DarkModeSwitch />
+        </Box>
+      </Flex>
+      {isSheetData(sheetData) ? (
+        <Flex h="100vh" w="100%" direction="column">
+          <SheetViewHeader
+            activeSheet={activeSheet}
+            iframeMode={iframeMode}
+            jsonUrl={rowsJsonUrl}
+            ontoggleIframeMode={() => setIframeMode((prev) => !prev)}
+            onSearchChange={onInputChange}
+            title={
+              <>
+                <Title fw={500} size="h1">
+                  {activeSheet}
+                </Title>
+                <Text>{rows.length} fields</Text>
+              </>
+            }
+          />
+          <Flex h="calc(100% - 85px)">
+            {iframeMode && iframeUrl ? (
+              <iframe src={iframeUrl} title={activeSheet ?? 'Sheet'} className={classes.iframe} />
+            ) : (
+              <PanelGroup direction="horizontal">
+                <Panel defaultSize={70}>
+                  <ScrollArea w="100%" h="100%">
+                    <Rows
+                      rows={rows}
+                      className={classes.main}
+                      openRow={openRow}
+                      setOpenRow={setOpenRow}
+                      setOpenCat={setOpenCat}
+                      keyword={debouncedSearchText}
+                    />
+                  </ScrollArea>
+                </Panel>
+                <PanelResizeHandle
+                  style={{
+                    width: '20px',
+                    zIndex: 10,
+                    marginInlineEnd: '-10px',
+                  }}
+                />
+                <Panel maxSize={40} minSize={20}>
+                  <ScrollArea p="md" pt="xl" pl={0} h="100%">
+                    <CategoriesAccordion
+                      data={rows}
+                      setOpenRow={setOpenRow}
+                      openCat={openCat}
+                      setOpenCat={setOpenCat}
+                    />
+                  </ScrollArea>
+                </Panel>
+              </PanelGroup>
+            )}
+          </Flex>
+        </Flex>
+      ) : null}
     </Flex>
   );
 };

@@ -6,7 +6,7 @@ const sheetId = import.meta.env.VITE_SPREADSHEET_ID;
 const apiKey = import.meta.env.VITE_API_KEY;
 
 export const useSheetData = (accessToken: string) => {
-  const [activeSheet, setActiveSheet] = React.useState<string | null | undefined>(null);
+  const [activeSheet, setActiveSheet] = React.useState<string | null>(null);
   const { data, isLoading, error } = useQuery({
     queryKey: ['FG_DATA_MODEL'],
     queryFn: () =>

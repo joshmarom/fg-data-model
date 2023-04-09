@@ -1551,6 +1551,25 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@tabler/icons-react@npm:^2.12.0":
+  version: 2.12.0
+  resolution: "@tabler/icons-react@npm:2.12.0"
+  dependencies:
+    "@tabler/icons": "npm:2.12.0"
+    prop-types: "npm:^15.7.2"
+  peerDependencies:
+    react: ^16.5.1 || ^17.0.0 || ^18.0.0
+  checksum: f66f39e732b1df6ce361564ceeb1313a2a64339ddc8838d6cfb4a616de30b4a1bea92f5149c6f08b85b49e6e908bf0a04d7d1f0e039c2515abd6496418fd015d
+  languageName: node
+  linkType: hard
+
+"@tabler/icons@npm:2.12.0":
+  version: 2.12.0
+  resolution: "@tabler/icons@npm:2.12.0"
+  checksum: 57eacf94dee3e8a6a342c8a55abe9fd7a0f77f2325788ee82ac398ae227468e920d1e4637a6d1279a9089ff7a647c95fba2eec7a68ded143013bb1d82e93b51a
+  languageName: node
+  linkType: hard
+
 "@tanstack/query-core@npm:4.27.0":
   version: 4.27.0
   resolution: "@tanstack/query-core@npm:4.27.0"
@@ -1685,6 +1704,13 @@ __metadata:
   dependencies:
     "@babel/types": "npm:^7.3.0"
   checksum: 78677b4e99554d5c68b60acfca185ca77e49b7abab908283c8731d9658a293bc3ebfbefa705fad2f2c33cd05f72447817bd46ec1846fd255fda86f66a70ef455
+  languageName: node
+  linkType: hard
+
+"@types/chroma-js@npm:^2":
+  version: 2.4.0
+  resolution: "@types/chroma-js@npm:2.4.0"
+  checksum: 1cc59614d4bf4b69763f19548cf94db398ba4875c628c9f12b87acd5ed60f0ef530e94bcafbdcecd9fad4f69d22bb24d501a5c22c16c1ee2642a6b5c79f341ec
   languageName: node
   linkType: hard
 
@@ -2290,6 +2316,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"axios@npm:^1.2":
+  version: 1.3.4
+  resolution: "axios@npm:1.3.4"
+  dependencies:
+    follow-redirects: "npm:^1.15.0"
+    form-data: "npm:^4.0.0"
+    proxy-from-env: "npm:^1.1.0"
+  checksum: 0019a70a644a1d0160e096042499ef13fda20a1693cc188814100026372585082f7dd95a2e54988a6749a9935323a043f2c84898af07e1a91430074f5987d481
+  languageName: node
+  linkType: hard
+
 "axobject-query@npm:^3.1.1":
   version: 3.1.1
   resolution: "axobject-query@npm:3.1.1"
@@ -2590,6 +2627,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"chroma-js@npm:^2.4.2":
+  version: 2.4.2
+  resolution: "chroma-js@npm:2.4.2"
+  checksum: ae03c91017ce9676ec20c31ee99f1a3800491a553fed2896d77c6263f744bfe4807df7da96482e054b1ce6063b8ba11762259f3d6d442c322cf867cb3e65f6f0
+  languageName: node
+  linkType: hard
+
 "ci-info@npm:^3.2.0":
   version: 3.7.1
   resolution: "ci-info@npm:3.7.1"
@@ -2601,6 +2645,15 @@ __metadata:
   version: 1.2.2
   resolution: "cjs-module-lexer@npm:1.2.2"
   checksum: a16484407ca1ed082b84f9581c757a17a9329a4f3096876a7eb6a434d3405f9774dcf1cc37779e0fa0024ef9bff4ebc2bae6549c84b3f6500b28797a5c5e5982
+  languageName: node
+  linkType: hard
+
+"clean-css@npm:^5.3":
+  version: 5.3.2
+  resolution: "clean-css@npm:5.3.2"
+  dependencies:
+    source-map: "npm:~0.6.0"
+  checksum: 3ba045341c3d4bb37b0cb69a2ea20774f60736a9ff7a11ea78bb457bc84fa1e2e7264da28a755d0f02ccfbe841b9e1d8321a9c3938f160f8bdd70c29fbb7dc9a
   languageName: node
   linkType: hard
 
@@ -3754,7 +3807,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"flat-cache@npm:^3.0.4":
+"flat-cache@npm:^3.0, flat-cache@npm:^3.0.4":
   version: 3.0.4
   resolution: "flat-cache@npm:3.0.4"
   dependencies:
@@ -3768,6 +3821,16 @@ __metadata:
   version: 3.2.7
   resolution: "flatted@npm:3.2.7"
   checksum: d57a559a56f8743f48067b992e70f222921bec6656de4617ee60dab5e531c2aeba67ace287965b759cca80fa0d3f0c7ffc39341ccc9bc874594f4b73c0fea48c
+  languageName: node
+  linkType: hard
+
+"follow-redirects@npm:^1.15.0":
+  version: 1.15.2
+  resolution: "follow-redirects@npm:1.15.2"
+  peerDependenciesMeta:
+    debug:
+      optional: true
+  checksum: 930171f8b81bf00e9368df4b17f3b835934762d51192632af53a51a8a608d5510a1ffbc6da5761dce9996cdbd750740490ca844320e5ff11cdaf2329a5a69647
   languageName: node
   linkType: hard
 
@@ -3788,6 +3851,13 @@ __metadata:
     combined-stream: "npm:^1.0.8"
     mime-types: "npm:^2.1.12"
   checksum: de37c5684d843842d2cc2bc44a975d9fecdf1df30d061c90b62fc0caeeeeb45794bceaba7aa52ee5eae8ede01ba44215b26c58f41cf64271c513787b7241fce4
+  languageName: node
+  linkType: hard
+
+"fp-ts@npm:^2.13.1":
+  version: 2.13.1
+  resolution: "fp-ts@npm:2.13.1"
+  checksum: 888f1491c817c2fef21424d3de16d52ae4098551fa96e12455f8fca9bb0f960c55dd9d725f526f53e564c477661abc61c04fd221697c6a4f5722e5be4d93ee4a
   languageName: node
   linkType: hard
 
@@ -5527,17 +5597,20 @@ __metadata:
     "@mantine/core": "npm:6.0.0"
     "@mantine/hooks": "npm:6.0.0"
     "@react-oauth/google": "npm:^0.9.0"
+    "@tabler/icons-react": "npm:^2.12.0"
     "@tanstack/react-query": "npm:^4.28.0"
     "@testing-library/dom": "npm:^8.20.0"
     "@testing-library/jest-dom": "npm:^5.16.5"
     "@testing-library/react": "npm:^13.4.0"
     "@testing-library/user-event": "npm:^14.4.3"
+    "@types/chroma-js": "npm:^2"
     "@types/jest": "npm:^29.4.0"
     "@types/react": "npm:^18.0.27"
     "@types/react-dom": "npm:^18.0.10"
     "@typescript-eslint/eslint-plugin": "npm:^5.50.0"
     "@typescript-eslint/parser": "npm:^5.50.0"
     "@vitejs/plugin-react": "npm:^3.1.0"
+    chroma-js: "npm:^2.4.2"
     eslint: "npm:^8.33.0"
     eslint-config-airbnb: "npm:19.0.4"
     eslint-config-airbnb-typescript: "npm:^17.0.0"
@@ -5546,18 +5619,22 @@ __metadata:
     eslint-plugin-jsx-a11y: "npm:^6.7.1"
     eslint-plugin-react: "npm:^7.32.2"
     eslint-plugin-react-hooks: "npm:^4.6.0"
+    fp-ts: "npm:^2.13.1"
     googleapis: "npm:^113.0.0"
     jest: "npm:^29.4.1"
     jest-environment-jsdom: "npm:^29.4.1"
     prettier: "npm:^2.8.6"
     react: "npm:^18.2.0"
     react-dom: "npm:^18.2.0"
+    react-resizable-panels: "npm:^0.0.37"
     react-router-dom: "npm:^6.9.0"
     tabler-icons-react: "npm:^1.56.0"
     ts-jest: "npm:^29.0.5"
     typescript: "npm:^4.9.5"
     use-google-sheets: "npm:^2.0.0"
+    usehooks-ts: "npm:^2.9.1"
     vite: "npm:^4.1.1"
+    vite-plugin-webfont-dl: "npm:^3.6.4"
   languageName: unknown
   linkType: soft
 
@@ -6120,7 +6197,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"picocolors@npm:^1.0.0":
+"picocolors@npm:^1.0, picocolors@npm:^1.0.0":
   version: 1.0.0
   resolution: "picocolors@npm:1.0.0"
   checksum: 447e1f6e4953522a3947f2effa93dca66f2436a7c275327ba1a7fb526eab369fc9847d77ebcd734dc483322256f34b431e93a325e44726e4ec390c11cc7f5c87
@@ -6233,7 +6310,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prop-types@npm:^15.8.1":
+"prop-types@npm:^15.7.2, prop-types@npm:^15.8.1":
   version: 15.8.1
   resolution: "prop-types@npm:15.8.1"
   dependencies:
@@ -6241,6 +6318,13 @@ __metadata:
     object-assign: "npm:^4.1.1"
     react-is: "npm:^16.13.1"
   checksum: 196295f119e0f38ec64b43c1121a7e3bdbfcf66b86a01d50df22a247eb22b644033097b53a3b0961ce64d540c7a2c505c844ff245cb548b4f6eda59bbac6fbf0
+  languageName: node
+  linkType: hard
+
+"proxy-from-env@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "proxy-from-env@npm:1.1.0"
+  checksum: 0bba2ef7c8374b384e94e4477764e53df66fcdfa7d19e2c4a063cb39eea979c139ce13981970223665422e72b7d149609a927046e2e40ab340b84d91af082591
   languageName: node
   linkType: hard
 
@@ -6353,6 +6437,16 @@ __metadata:
     "@types/react":
       optional: true
   checksum: b96447113b5d3f7131293534f531ba7d87526df51d887608b5a4a221439e9709cb107d454c07ae201b104b97327fcb5095c44131e0db74b95bcc4676dca4ddc1
+  languageName: node
+  linkType: hard
+
+"react-resizable-panels@npm:^0.0.37":
+  version: 0.0.37
+  resolution: "react-resizable-panels@npm:0.0.37"
+  peerDependencies:
+    react: ^16.14.0 || ^17.0.0 || ^18.0.0
+    react-dom: ^16.14.0 || ^17.0.0 || ^18.0.0
+  checksum: 00f0582a99bbc0604302d674bd99efbd04b11d4b1560c11b71b0a269e76e907003ceb20072cbea22e207a5aaa76678b6ce37fc6948141f0c9ceb54f48972c779
   languageName: node
   linkType: hard
 
@@ -6793,7 +6887,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"source-map@npm:^0.6.0, source-map@npm:^0.6.1, source-map@npm:~0.6.1":
+"source-map@npm:^0.6.0, source-map@npm:^0.6.1, source-map@npm:~0.6.0, source-map@npm:~0.6.1":
   version: 0.6.1
   resolution: "source-map@npm:0.6.1"
   checksum: cba9f44c3a4a0485f44a7760ebe427eecdd3b58011ae0459c05506b54f898835b2302073d6afa563a19b60ee9e54c82e33bc4a032e28bebacdfc635f1d0bf7e0
@@ -7398,6 +7492,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"usehooks-ts@npm:^2.9.1":
+  version: 2.9.1
+  resolution: "usehooks-ts@npm:2.9.1"
+  peerDependencies:
+    react: ^16.8.0  || ^17.0.0 || ^18.0.0
+    react-dom: ^16.8.0  || ^17.0.0 || ^18.0.0
+  checksum: 0541eb1c4fc9d1bbade91d54c6d1c37ad95f8e01deb73d2c33fe420d535ccedfa1297483f8579802af3eed8fa78014d321a5e65026c64e5f3b8fe3a48cbb23dc
+  languageName: node
+  linkType: hard
+
 "util-deprecate@npm:^1.0.1":
   version: 1.0.2
   resolution: "util-deprecate@npm:1.0.2"
@@ -7422,6 +7526,20 @@ __metadata:
     "@types/istanbul-lib-coverage": "npm:^2.0.1"
     convert-source-map: "npm:^1.6.0"
   checksum: 06027f6004c45b08c690bc3dc35f3c6efa9ab99f689d4bb275f2b3239400ef084771e3a14960117e38a335b5dfbeaf808db1e4487077a27888c7abd70c42f185
+  languageName: node
+  linkType: hard
+
+"vite-plugin-webfont-dl@npm:^3.6.4":
+  version: 3.6.4
+  resolution: "vite-plugin-webfont-dl@npm:3.6.4"
+  dependencies:
+    axios: "npm:^1.2"
+    clean-css: "npm:^5.3"
+    flat-cache: "npm:^3.0"
+    picocolors: "npm:^1.0"
+  peerDependencies:
+    vite: ^2 || ^3 || ^4
+  checksum: 45225a6f9542f8a28dd898f574c799b293d8e1eab7a0193356115c5309ff07846b35075c19fe595fea825d6425f6e1241f4044e3e8af323bf8f9cc74bbd627ea
   languageName: node
   linkType: hard
 
