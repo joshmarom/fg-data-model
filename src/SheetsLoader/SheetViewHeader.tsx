@@ -20,7 +20,13 @@ export const SheetViewHeader = ({
   <Group spacing="sm" align="center" p="xl">
     {title}
     <Box sx={{ flex: 1, width: '100%' }}>
-      <TextInput onInput={onSearchChange} placeholder="Search Field Name" radius="lg" m="xl" />
+      <TextInput
+        onInput={onSearchChange}
+        variant="filled"
+        placeholder="Search Field Name"
+        radius="md"
+        mx="xl"
+      />
     </Box>
     <Tooltip label={iframeMode ? 'Close Google Sheets iframe' : 'Open Google Sheets iframe'}>
       <ActionIcon

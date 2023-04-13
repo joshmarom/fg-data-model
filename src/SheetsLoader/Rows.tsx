@@ -1,8 +1,9 @@
-import { Accordion, Code, Flex, Grid, MantineTheme, Stack, Title } from '@mantine/core';
+import { Accordion, Code, Flex, Grid, MantineTheme, Title } from '@mantine/core';
 import React from 'react';
 import { Cell } from './Cell';
 import { sheetColumnsMap, SheetRow } from './sheetParser';
 import { Copiable } from '../components/Copiable';
+import { IndexNumber } from './IndexNumber';
 
 export const Rows = ({
   rows,
@@ -11,6 +12,7 @@ export const Rows = ({
   setOpenRow,
   setOpenCat,
   keyword,
+  onOpenRow,
 }: {
   rows: SheetRow[];
   className?: string;
@@ -18,11 +20,20 @@ export const Rows = ({
   setOpenRow?: (value: string) => void;
   setOpenCat?: (value: string) => void;
   keyword?: string;
+  onOpenRow: (rowRef: React.RefObject<HTMLDivElement>) => void;
 }) => {
   const handleCellClick = (key: string, cat: string | number) =>
     key === 'Category for Record View' && setOpenCat ? setOpenCat(String(cat)) : undefined;
   const titleColor = ({ colorScheme, colors }: MantineTheme) =>
     colorScheme === 'dark' ? colors.cyan[6] : colors.cyan[7];
+
+  const refs = rows.map(() => React.useRef<HTMLDivElement>(null));
+
+  React.useEffect(() => {
+    if (!openRow) return;
+    const index = rows.findIndex((row) => row.DisplayName === openRow);
+    if (index !== -1) onOpenRow(refs[index]);
+  }, [openRow, rows, onOpenRow]);
   //console.log(data);
   //console.log(headers.filter((h) => !sheetColumns.includes(clearString(h))).map(clearString));
   return (
@@ -48,37 +59,13 @@ export const Rows = ({
         }
 
         return (
-          <Accordion.Item key={uid} value={uid}>
+          <Accordion.Item key={uid} value={uid} ref={refs[i]}>
             <Accordion.Control>
               <Flex gap="lg" align="center">
-                <Flex
-                  align="center"
-                  justify="center"
-                  ta="center"
-                  sx={(t) => ({
-                    color: t.colorScheme === 'dark' ? t.colors.dark[3] : t.colors.gray[6],
-                    borderRadius: t.radius.xl,
-                    flexGrow: 0,
-                    flexShrink: 0,
-                    aspectRatio: '1/1',
-                    width: t.spacing.xl,
-                    fontSize: t.fontSizes.xs,
-                    fontWeight: 500,
-                    textAlign: 'center',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    border: `0.25px solid ${
-                      t.colorScheme === 'dark' ? t.colors.dark[5] : t.colors.gray[4]
-                    }`,
-                  })}
-                >
-                  {recordViewOrder}
-                </Flex>
-                <Stack>
-                  <Title miw={200} size="h4" sx={(t) => ({ color: titleColor(t) })}>
-                    {displayName}
-                  </Title>
-                </Stack>
+                <IndexNumber>{recordViewOrder}</IndexNumber>
+                <Title miw={200} size="h4" sx={(t) => ({ color: titleColor(t) })}>
+                  {displayName}
+                </Title>
                 {dataPath ? (
                   <Copiable>
                     <Code>{dataPath}</Code>

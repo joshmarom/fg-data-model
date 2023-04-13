@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Search } from 'tabler-icons-react';
 import { Panel, PanelGroup, PanelResizeHandle } from 'react-resizable-panels';
 import { Box, Flex, ScrollArea, Stack, Text, TextInput, Title } from '@mantine/core';
@@ -47,8 +47,21 @@ export const SheetsLoader = ({ accessToken }: { accessToken: string }) => {
   const { classes } = useStyles();
   const [openRow, setOpenRow] = React.useState<string | undefined>();
   const [openCat, setOpenCat] = React.useState<string | undefined>();
+  const rowsViewport = React.useRef<HTMLDivElement>(null);
 
   useRouteItemActivator(setActiveSheet);
+
+  const setRowsScrollTop = useCallback(
+    (el: HTMLDivElement) => {
+      const { current: rowsViewportEl } = rowsViewport;
+      if (!rowsViewportEl) return;
+      setTimeout(
+        () => rowsViewportEl.scrollTo({ top: el.offsetTop - 150, behavior: 'smooth' }),
+        300
+      );
+    },
+    [rowsViewport.current]
+  );
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <>Error: {error}</>;
@@ -57,25 +70,32 @@ export const SheetsLoader = ({ accessToken }: { accessToken: string }) => {
   return (
     <Flex h="100vh" w="100%" className={classes.canvas}>
       <Flex direction="column" className={classes.sidebar}>
-        <Stack p="lg" spacing="xl">
-          <Logo className={classes.logo} />
-          <TextInput
-            placeholder="Search Sheet"
-            variant="filled"
-            type="search"
-            onInput={({ currentTarget: { value } }) => setSheetSearchText(value)}
-            rightSection={<Search size="16" strokeWidth={1} />}
-          />
+        <Stack
+          sx={{
+            height: '100%',
+            flexGrow: 1,
+          }}
+        >
+          <Stack spacing="lg" m="lg">
+            <Logo className={classes.logo} />
+            <TextInput
+              placeholder="Search Sheet"
+              variant="filled"
+              type="search"
+              onInput={({ currentTarget: { value } }) => setSheetSearchText(value)}
+              rightSection={<Search size="16" strokeWidth={1} />}
+            />
+          </Stack>
+          <ScrollArea h="100%" px="lg">
+            <SheetList activeSheet={activeSheet} sheets={filteredSheets} />
+          </ScrollArea>
+          <Box p="xl" sx={(t) => ({ flexGrow: 0, borderTop: `1px solid ${borderColor(t)}` })}>
+            <DarkModeSwitch />
+          </Box>
         </Stack>
-        <ScrollArea h="100%" px="lg">
-          <SheetList activeSheet={activeSheet} sheets={filteredSheets} />
-        </ScrollArea>
-        <Box p="xl" sx={(t) => ({ borderTop: `1px solid ${borderColor(t)}` })}>
-          <DarkModeSwitch />
-        </Box>
       </Flex>
       {isSheetData(sheetData) ? (
-        <Flex h="100vh" w="100%" direction="column">
+        <Stack mah="100vh" w="100%">
           <SheetViewHeader
             activeSheet={activeSheet}
             iframeMode={iframeMode}
@@ -91,13 +111,24 @@ export const SheetsLoader = ({ accessToken }: { accessToken: string }) => {
               </>
             }
           />
-          <Flex h="calc(100% - 85px)">
+          <Flex
+            sx={{
+              flexShrink: 1,
+              overflow: 'hidden',
+              height: '100%',
+            }}
+          >
             {iframeMode && iframeUrl ? (
-              <iframe src={iframeUrl} title={activeSheet ?? 'Sheet'} className={classes.iframe} />
+              <iframe
+                src={iframeUrl}
+                title={activeSheet ?? 'Sheet'}
+                height="100%"
+                className={classes.iframe}
+              />
             ) : (
               <PanelGroup direction="horizontal">
                 <Panel defaultSize={70}>
-                  <ScrollArea w="100%" h="100%">
+                  <ScrollArea w="100%" h="100%" viewportRef={rowsViewport}>
                     <Rows
                       rows={rows}
                       className={classes.main}
@@ -105,6 +136,7 @@ export const SheetsLoader = ({ accessToken }: { accessToken: string }) => {
                       setOpenRow={setOpenRow}
                       setOpenCat={setOpenCat}
                       keyword={debouncedSearchText}
+                      onOpenRow={({ current: el }) => el && setRowsScrollTop(el)}
                     />
                   </ScrollArea>
                 </Panel>
@@ -120,6 +152,7 @@ export const SheetsLoader = ({ accessToken }: { accessToken: string }) => {
                     <CategoriesAccordion
                       data={rows}
                       setOpenRow={setOpenRow}
+                      openRow={openRow}
                       openCat={openCat}
                       setOpenCat={setOpenCat}
                     />
@@ -128,7 +161,7 @@ export const SheetsLoader = ({ accessToken }: { accessToken: string }) => {
               </PanelGroup>
             )}
           </Flex>
-        </Flex>
+        </Stack>
       ) : null}
     </Flex>
   );

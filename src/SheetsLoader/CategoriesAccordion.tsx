@@ -4,11 +4,13 @@ import { SheetRow } from './sheetParser';
 
 export const CategoriesAccordion = ({
   data,
+  openRow,
   setOpenRow,
   openCat,
   setOpenCat,
 }: {
   data: SheetRow[];
+  openRow?: string;
   setOpenRow?: (row: string) => void;
   openCat: string | undefined;
   setOpenCat: (cat: string) => void;
@@ -25,12 +27,14 @@ export const CategoriesAccordion = ({
     [data]
   );
 
+  const refs = categories.map(() => React.useRef<HTMLDivElement>(null));
+
   if (!categories.length) return null;
 
   return (
     <Accordion variant="separated" radius="md" value={openCat} onChange={setOpenCat}>
-      {categories.map((category) => (
-        <Accordion.Item value={category} key={category}>
+      {categories.map((category, i) => (
+        <Accordion.Item value={category} key={category} ref={refs[i]}>
           <Accordion.Control>
             <Text fw={600} lineClamp={1}>
               {category}
@@ -49,7 +53,7 @@ export const CategoriesAccordion = ({
                           size="sm"
                           sx={(t) => ({
                             cursor: 'pointer',
-                            fontWeight: 300,
+                            fontWeight: openRow === fieldName ? 800 : 400,
                             color: t.colorScheme === 'dark' ? t.colors.cyan[6] : t.colors.cyan[7],
                           })}
                           onClick={() => (setOpenRow ? setOpenRow(fieldName) : undefined)}
