@@ -28,6 +28,24 @@ export const useStyles = createStyles((theme) => {
       backgroundColor: lightDark(colors.gray[2], colors.dark[7]),
       borderRadius: theme.radius.md,
     },
+    rows: {
+      marginBlock: theme.spacing.xl,
+      borderRadius: theme.radius.md,
+      '.mantine-Accordion-item[data-active="true"]': {
+        borderRadius: theme.radius.md,
+        boxShadow: theme.shadows.sm,
+        zIndex: 2,
+        position: 'relative',
+      },
+      '.mantine-Accordion-item': {
+        '&:not([data-active="true"])': {
+          backgroundColor: lightDark(colors.gray[2], colors.dark[7]),
+          '&:not(:last-of-type)': {
+            marginBottom: '1px',
+          },
+        },
+      },
+    },
     iframe: { width: '100%', height: '100%', border: '0 none' },
   };
 });

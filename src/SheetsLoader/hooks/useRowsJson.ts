@@ -1,5 +1,5 @@
 import React from 'react';
-import { SheetColumnHeader, sheetColumnsMap, SheetRow } from '../sheetParser';
+import { SheetColumnHeader, sheetColumnsMap, SheetRow } from '../helpers/sheetParser';
 import { CellValue } from '../helpers';
 
 const rowsToReadableJson = (rows: SheetRow[]) =>

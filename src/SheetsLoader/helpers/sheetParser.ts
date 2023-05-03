@@ -1,4 +1,4 @@
-import { CellValue, clearString, SheetData, strToKey } from './helpers';
+import { CellValue, clearString, SheetData, strToKey } from './index';
 
 export const sheetColumns = [
   'Record View Order',
@@ -45,6 +45,7 @@ export const sheetColumns = [
   //'Indexed_Y_N',
 ] as const;
 
+export type SheetColumnHeader = (typeof sheetColumns)[number];
 const normalizeRequired = (str: SheetColumnHeader): SheetColumnHeader =>
   str === 'Required_Y_N' ? 'Required (Y/N)' : str;
 export const sheetColumnsMap = sheetColumns
@@ -55,8 +56,6 @@ export const sheetColumnsMap = sheetColumns
   );
 
 export const getHeaderName = (key: string) => sheetColumnsMap[key];
-
-export type SheetColumnHeader = (typeof sheetColumns)[number];
 
 export type SheetRow = {
   [key in keyof typeof sheetColumnsMap]?: CellValue;
@@ -76,16 +75,17 @@ export const isValidRow = (row: SheetRow) => {
     DataType,
     CategoryforRecordView,
   } = row;
+  const isNameValid = !!DisplayName || !!FullDisplayName;
+  if (!isNameValid) return false;
   const isOrderValid =
     !!RecordViewOrder && typeof Number(RecordViewOrder) === 'number' && Number(RecordViewOrder) > 0;
-  const isNameValid = !!DisplayName || !!FullDisplayName;
-  return isNameValid && (isOrderValid || !!DataType || !!DataPath || !!CategoryforRecordView);
+  return isOrderValid || !!DataType || !!DataPath || !!CategoryforRecordView;
 };
 export const parseSheetData = (data: SheetData): SheetRow[] => {
   const headers = data.values[0].filter(isString).map(clearString);
   if (!isHeaderRow(headers)) return [];
 
-  const headerIndices: { [key: string]: number } = headers.reduce(
+  const headerIndices = headers.reduce(
     (acc, h, i) => ({ ...acc, [h]: i }),
     {} as { [key in SheetColumnHeader]: number }
   );

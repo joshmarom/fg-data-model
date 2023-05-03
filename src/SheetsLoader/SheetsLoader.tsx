@@ -1,55 +1,36 @@
 import React, { useCallback } from 'react';
 import { Search } from 'tabler-icons-react';
-import { Panel, PanelGroup, PanelResizeHandle } from 'react-resizable-panels';
-import { Box, Flex, ScrollArea, Stack, Text, TextInput, Title } from '@mantine/core';
-import { borderColor, isSheetData, isValidResponse, Sheet } from './helpers';
+import { Panel, PanelGroup } from 'react-resizable-panels';
+import { Box, Flex, ScrollArea, Stack, TextInput } from '@mantine/core';
+import { borderColor } from './helpers';
 import { useDebouncedSearch, useRouteItemActivator, useSearchSheets, useSheetData } from './hooks';
-import { Rows } from './Rows';
-import { CategoriesAccordion } from './CategoriesAccordion';
-import { invalidSheets } from './invalidSheets';
-import { SheetList } from './SheetList';
+import { Rows } from './components/Rows';
+import { CategoriesAccordion } from './components/CategoriesAccordion';
+import { SheetList } from './components/SheetList';
 import { DarkModeSwitch } from '../components/DarkModeSwitch';
 import { Logo } from '../components/Logo';
-import { parseSheetData } from './sheetParser';
 import { useRowsJsonUrl } from './hooks/useRowsJson';
 import { useStyles } from './SheetLoaderStyle';
-import { SheetViewHeader } from './SheetViewHeader';
-
-const onlyValidSheets = (sheets: Sheet[]): Sheet[] =>
-  sheets.filter(
-    (s, i) => i > 7 && !!s.properties.title && !invalidSheets.includes(s.properties.title)
-  );
+import { SheetViewHeader } from './components/SheetViewHeader';
+import { PanelResizer } from './components/PanelResizer';
+import { useStore } from './store';
 
 export const SheetsLoader = ({ accessToken }: { accessToken: string }) => {
-  const { activeSheet, data, isLoading, error, setActiveSheet, sheetData } =
-    useSheetData(accessToken);
-  const sheetDataIsValid = React.useMemo(() => isSheetData(sheetData), [sheetData]);
-  const sheets = React.useMemo(() => (data?.sheets ? onlyValidSheets(data.sheets) : []), [data]);
-  const sheet = React.useMemo(
-    () => sheets.find((s: Sheet) => s.properties.title === activeSheet),
-    [sheets, activeSheet]
-  );
-  const rows = React.useMemo(
-    () => (sheetDataIsValid ? parseSheetData(sheetData) : []),
-    [sheetDataIsValid, sheetData]
-  );
+  const [activeSheet, setActiveSheet] = React.useState<string | null>(null);
+  const {
+    data: { sheets, rows, sheetDataIsValid, iframeUrl },
+    isLoading,
+    error,
+  } = useSheetData(accessToken, activeSheet);
+  useRouteItemActivator(setActiveSheet);
+
+  const iframeMode = useStore((state) => state.iframeMode);
   const { setSheetSearchText, filteredSheets } = useSearchSheets(sheets);
   const { debouncedSearchText, onInputChange } = useDebouncedSearch();
-  const [iframeMode, setIframeMode] = React.useState(false);
-  const iframeUrl = React.useMemo(
-    () =>
-      !sheetDataIsValid || !sheet
-        ? undefined
-        : `https://docs.google.com/spreadsheets/d/${data.spreadsheetId}/edit#gid=${sheet.properties.sheetId}`,
-    [sheetDataIsValid, sheet, data]
-  );
   const rowsJsonUrl = useRowsJsonUrl(rows);
   const { classes } = useStyles();
-  const [openRow, setOpenRow] = React.useState<string | undefined>();
-  const [openCat, setOpenCat] = React.useState<string | undefined>();
-  const rowsViewport = React.useRef<HTMLDivElement>(null);
 
-  useRouteItemActivator(setActiveSheet);
+  const rowsViewport = React.useRef<HTMLDivElement>(null);
 
   const setRowsScrollTop = useCallback(
     (el: HTMLDivElement) => {
@@ -57,7 +38,7 @@ export const SheetsLoader = ({ accessToken }: { accessToken: string }) => {
       if (!rowsViewportEl) return;
       setTimeout(
         () => rowsViewportEl.scrollTo({ top: el.offsetTop - 150, behavior: 'smooth' }),
-        300
+        200
       );
     },
     [rowsViewport.current]
@@ -65,7 +46,6 @@ export const SheetsLoader = ({ accessToken }: { accessToken: string }) => {
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <>Error: {error}</>;
-  if (!isValidResponse(data)) return <div>Could not load data</div>;
 
   return (
     <Flex h="100vh" w="100%" className={classes.canvas}>
@@ -94,22 +74,13 @@ export const SheetsLoader = ({ accessToken }: { accessToken: string }) => {
           </Box>
         </Stack>
       </Flex>
-      {isSheetData(sheetData) ? (
-        <Stack mah="100vh" w="100%">
+      {sheetDataIsValid ? (
+        <Stack mah="100vh" w="100%" spacing={0}>
           <SheetViewHeader
-            activeSheet={activeSheet}
-            iframeMode={iframeMode}
             jsonUrl={rowsJsonUrl}
-            ontoggleIframeMode={() => setIframeMode((prev) => !prev)}
             onSearchChange={onInputChange}
-            title={
-              <>
-                <Title fw={500} size="h1">
-                  {activeSheet}
-                </Title>
-                <Text>{rows.length} fields</Text>
-              </>
-            }
+            rowsCount={rows.length}
+            title={activeSheet}
           />
           <Flex
             sx={{
@@ -127,35 +98,19 @@ export const SheetsLoader = ({ accessToken }: { accessToken: string }) => {
               />
             ) : (
               <PanelGroup direction="horizontal">
-                <Panel defaultSize={70}>
-                  <ScrollArea w="100%" h="100%" viewportRef={rowsViewport}>
+                <Panel defaultSize={70} style={{ zIndex: 3 }}>
+                  <ScrollArea w="100%" h="100%" viewportRef={rowsViewport} pl="xl" pr="sm">
                     <Rows
                       rows={rows}
-                      className={classes.main}
-                      openRow={openRow}
-                      setOpenRow={setOpenRow}
-                      setOpenCat={setOpenCat}
                       keyword={debouncedSearchText}
-                      onOpenRow={({ current: el }) => el && setRowsScrollTop(el)}
+                      onOpenRow={({ current: el }) => (el ? setRowsScrollTop(el) : undefined)}
                     />
                   </ScrollArea>
                 </Panel>
-                <PanelResizeHandle
-                  style={{
-                    width: '20px',
-                    zIndex: 10,
-                    marginInlineEnd: '-10px',
-                  }}
-                />
+                <PanelResizer />
                 <Panel maxSize={40} minSize={20}>
-                  <ScrollArea p="md" pt="xl" pl={0} h="100%">
-                    <CategoriesAccordion
-                      data={rows}
-                      setOpenRow={setOpenRow}
-                      openRow={openRow}
-                      openCat={openCat}
-                      setOpenCat={setOpenCat}
-                    />
+                  <ScrollArea pr="xl" pl="sm" h="100%">
+                    <CategoriesAccordion data={rows} />
                   </ScrollArea>
                 </Panel>
               </PanelGroup>

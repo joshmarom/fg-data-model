@@ -24,7 +24,7 @@ export const isSheetData = (sheet: any): sheet is SheetData =>
   typeof sheet === 'object' && Array.isArray(sheet.values) && sheet.values.length > 0;
 export const strToKey = (str: string) => str.replace(/(\r\n|\n|\r|[^a-zA-Z0-9])/gm, '');
 export const clearString = (str: string) => str.replace(/(\s*[\r\n]+\s*|\s+)/gm, ' ').trim();
-export const getSheetName = (sheet: Sheet) => sheet.properties.title || 'Untitled';
-export const getSheetId = (sheet: Sheet) => sheet.properties.sheetId || 0;
+export const getSheetName = (sheet: Sheet) => sheet.properties.title ?? 'Untitled';
+export const getSheetId = (sheet: Sheet) => sheet.properties.sheetId ?? 0;
 export const borderColor = ({ colors, colorScheme }: MantineTheme) =>
   colorScheme === 'dark' ? colors.dark[5] : colors.gray[3];

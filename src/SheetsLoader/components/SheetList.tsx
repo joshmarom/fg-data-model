@@ -1,7 +1,7 @@
 import { NavLink } from '@mantine/core';
 import { Link } from 'react-router-dom';
 import React from 'react';
-import { Sheet } from './helpers';
+import { Sheet } from '../helpers';
 
 export const SheetList = ({
   sheets,

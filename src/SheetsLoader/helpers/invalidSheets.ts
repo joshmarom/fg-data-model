@@ -35,6 +35,8 @@ const noIndex = [
 const noIndexColumn = ['File Mapping Verification Result', 'Tax Rule'];
 */
 
+import { Sheet } from './index';
+
 const needToBeFixed = [
   'Base',
   'EmailTemplate',
@@ -59,3 +61,8 @@ const needToBeFixed = [
 ];
 
 export const invalidSheets = [...needToBeFixed, 'StaticTables', 'SystemEvent'];
+
+export const onlyValidSheets = (sheets: Sheet[]): Sheet[] =>
+  sheets.filter(
+    ({ properties: { title } }, i) => i > 7 && !!title && !invalidSheets.includes(title)
+  );

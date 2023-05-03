@@ -1,20 +1,9 @@
 import React from 'react';
-import { Accordion, Col, Grid, Text } from '@mantine/core';
-import { SheetRow } from './sheetParser';
+import { Accordion, Col, Grid, Text, UnstyledButton } from '@mantine/core';
+import { SheetRow } from '../helpers/sheetParser';
+import { useStore } from '../store';
 
-export const CategoriesAccordion = ({
-  data,
-  openRow,
-  setOpenRow,
-  openCat,
-  setOpenCat,
-}: {
-  data: SheetRow[];
-  openRow?: string;
-  setOpenRow?: (row: string) => void;
-  openCat: string | undefined;
-  setOpenCat: (cat: string) => void;
-}) => {
+export const CategoriesAccordion = ({ data }: { data: SheetRow[] }) => {
   const categories = React.useMemo(
     () => [
       ...new Set(
@@ -27,14 +16,15 @@ export const CategoriesAccordion = ({
     [data]
   );
 
-  const refs = categories.map(() => React.useRef<HTMLDivElement>(null));
+  const [openCat, setOpenCat] = useStore((state) => [state.openCat, state.setOpenCat]);
+  const [openRow, setOpenRow] = useStore((state) => [state.openRow, state.setOpenRow]);
 
   if (!categories.length) return null;
 
   return (
-    <Accordion variant="separated" radius="md" value={openCat} onChange={setOpenCat}>
-      {categories.map((category, i) => (
-        <Accordion.Item value={category} key={category} ref={refs[i]}>
+    <Accordion variant="separated" my="xl" radius="md" value={openCat} onChange={setOpenCat}>
+      {categories.map((category) => (
+        <Accordion.Item value={category} key={category}>
           <Accordion.Control>
             <Text fw={600} lineClamp={1}>
               {category}
@@ -49,17 +39,19 @@ export const CategoriesAccordion = ({
                   return (
                     fieldName && (
                       <Col span={6} key={fieldName}>
-                        <Text
-                          size="sm"
-                          sx={(t) => ({
-                            cursor: 'pointer',
-                            fontWeight: openRow === fieldName ? 800 : 400,
-                            color: t.colorScheme === 'dark' ? t.colors.cyan[6] : t.colors.cyan[7],
-                          })}
+                        <UnstyledButton
                           onClick={() => (setOpenRow ? setOpenRow(fieldName) : undefined)}
                         >
-                          {fieldName}
-                        </Text>
+                          <Text
+                            size="sm"
+                            weight={openRow === fieldName ? 800 : 400}
+                            sx={(t) => ({
+                              color: t.colorScheme === 'dark' ? t.colors.cyan[6] : t.colors.cyan[7],
+                            })}
+                          >
+                            {fieldName}
+                          </Text>
+                        </UnstyledButton>
                       </Col>
                     )
                   );

@@ -5635,6 +5635,7 @@ __metadata:
     usehooks-ts: "npm:^2.9.1"
     vite: "npm:^4.1.1"
     vite-plugin-webfont-dl: "npm:^3.6.4"
+    zustand: "npm:^4.3.7"
   languageName: unknown
   linkType: soft
 
@@ -7483,7 +7484,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"use-sync-external-store@npm:^1.2.0":
+"use-sync-external-store@npm:1.2.0, use-sync-external-store@npm:^1.2.0":
   version: 1.2.0
   resolution: "use-sync-external-store@npm:1.2.0"
   peerDependencies:
@@ -7826,5 +7827,22 @@ __metadata:
   version: 0.1.0
   resolution: "yocto-queue@npm:0.1.0"
   checksum: 63eceacd482622afd71290541a9823a0e5eed88a6b58a5d136a5fb8151ed4d1549c80f28d74d4ad351582f9890635d49e6cf70f8d3cc64948640f839f6a37c70
+  languageName: node
+  linkType: hard
+
+"zustand@npm:^4.3.7":
+  version: 4.3.7
+  resolution: "zustand@npm:4.3.7"
+  dependencies:
+    use-sync-external-store: "npm:1.2.0"
+  peerDependencies:
+    immer: ">=9.0"
+    react: ">=16.8"
+  peerDependenciesMeta:
+    immer:
+      optional: true
+    react:
+      optional: true
+  checksum: ffccb08367cbb795a7795076333de3b474bccd952e2f0dadd4e1131098f4333e674a5fd6a1aaf14c7eff9fa4c7bd4d9bbea7bcf7b76029c5f0982d8131f57436
   languageName: node
   linkType: hard
