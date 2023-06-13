@@ -21,6 +21,9 @@ import { IndexNumber } from './IndexNumber';
 import { useStore } from '../store';
 import { useStyles } from '../SheetLoaderStyle';
 
+const titleColor = ({ colorScheme, colors }: MantineTheme) =>
+  colorScheme === 'dark' ? colors.cyan[6] : colors.cyan[7];
+
 export const Rows = ({
   rows,
   keyword = '',
@@ -34,8 +37,6 @@ export const Rows = ({
   const setOpenCat = useStore((state) => state.setOpenCat);
   const openRowRef = React.useRef<HTMLDivElement>(null);
   const { classes } = useStyles();
-  const titleColor = ({ colorScheme, colors }: MantineTheme) =>
-    colorScheme === 'dark' ? colors.cyan[6] : colors.cyan[7];
 
   React.useEffect(() => {
     if (!openRow) return;

@@ -14,6 +14,7 @@ import { useStyles } from './SheetLoaderStyle';
 import { SheetViewHeader } from './components/SheetViewHeader';
 import { PanelResizer } from './components/PanelResizer';
 import { useStore } from './store';
+// import { ColorStrips } from '../components/ColorStrips';
 
 export const SheetsLoader = ({ accessToken }: { accessToken: string }) => {
   const [activeSheet, setActiveSheet] = React.useState<string | null>(null);
@@ -74,50 +75,52 @@ export const SheetsLoader = ({ accessToken }: { accessToken: string }) => {
           </Box>
         </Stack>
       </Flex>
-      {sheetDataIsValid ? (
-        <Stack mah="100vh" w="100%" spacing={0}>
-          <SheetViewHeader
-            jsonUrl={rowsJsonUrl}
-            onSearchChange={onInputChange}
-            rowsCount={rows.length}
-            title={activeSheet}
-          />
-          <Flex
-            sx={{
-              flexShrink: 1,
-              overflow: 'hidden',
-              height: '100%',
-            }}
-          >
-            {iframeMode && iframeUrl ? (
-              <iframe
-                src={iframeUrl}
-                title={activeSheet ?? 'Sheet'}
-                height="100%"
-                className={classes.iframe}
-              />
-            ) : (
-              <PanelGroup direction="horizontal">
-                <Panel defaultSize={70} style={{ zIndex: 3 }}>
-                  <ScrollArea w="100%" h="100%" viewportRef={rowsViewport} pl="xl" pr="sm">
-                    <Rows
-                      rows={rows}
-                      keyword={debouncedSearchText}
-                      onOpenRow={({ current: el }) => (el ? setRowsScrollTop(el) : undefined)}
-                    />
-                  </ScrollArea>
-                </Panel>
-                <PanelResizer />
-                <Panel maxSize={40} minSize={20}>
-                  <ScrollArea pr="xl" pl="sm" h="100%">
-                    <CategoriesAccordion data={rows} />
-                  </ScrollArea>
-                </Panel>
-              </PanelGroup>
-            )}
-          </Flex>
-        </Stack>
-      ) : null}
+      {
+        sheetDataIsValid ? (
+          <Stack mah="100vh" w="100%" spacing={0}>
+            <SheetViewHeader
+              jsonUrl={rowsJsonUrl}
+              onSearchChange={onInputChange}
+              rowsCount={rows.length}
+              title={activeSheet}
+            />
+            <Flex
+              sx={{
+                flexShrink: 1,
+                overflow: 'hidden',
+                height: '100%',
+              }}
+            >
+              {iframeMode && iframeUrl ? (
+                <iframe
+                  src={iframeUrl}
+                  title={activeSheet ?? 'Sheet'}
+                  height="100%"
+                  className={classes.iframe}
+                />
+              ) : (
+                <PanelGroup direction="horizontal">
+                  <Panel defaultSize={70} style={{ zIndex: 3 }}>
+                    <ScrollArea w="100%" h="100%" viewportRef={rowsViewport} pl="xl" pr="sm">
+                      <Rows
+                        rows={rows}
+                        keyword={debouncedSearchText}
+                        onOpenRow={({ current: el }) => (el ? setRowsScrollTop(el) : undefined)}
+                      />
+                    </ScrollArea>
+                  </Panel>
+                  <PanelResizer />
+                  <Panel maxSize={40} minSize={20}>
+                    <ScrollArea pr="xl" pl="sm" h="100%">
+                      <CategoriesAccordion data={rows} />
+                    </ScrollArea>
+                  </Panel>
+                </PanelGroup>
+              )}
+            </Flex>
+          </Stack>
+        ) : null // <ColorStrips />
+      }
     </Flex>
   );
 };
