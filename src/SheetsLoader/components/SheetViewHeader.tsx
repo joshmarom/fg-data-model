@@ -18,6 +18,7 @@ export const SheetViewHeader = ({
     state.iframeMode,
     state.toggleIframeMode,
   ]);
+
   return (
     <Group
       spacing="sm"
